@@ -4,16 +4,16 @@ import { useNavigate } from 'react-router';
 const Create = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [author, setAuthor] = useState('cammy');
+    const [author, setAuthor] = useState('');
     const [isPending, setIsPending] = useState(false)
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const blog = {title, body, author};
+        const blog = { title, body, author };
         fetch('http://localhost:5000/api/create', {
             method: 'POST',
-            headers: {"Content-Type":"application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(blog)
         }).then(() => {
             console.log("New blog added");
@@ -28,7 +28,7 @@ const Create = () => {
             <h2>Add a New Blog</h2>
             <form onSubmit={handleSubmit}>
                 <label>Blog title:</label>
-                <input 
+                <input
                     type="text"
                     required
                     value={title}
@@ -41,17 +41,17 @@ const Create = () => {
                     onChange={(e) => setBody(e.target.value)}
                 ></textarea>
                 <label>Blog author:</label>
-                <select
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                >
-                    <option value="Mario">Mario</option>
-                    <option value="cammy">cammy</option>
-                </select>
+                
+                <input
+                    type="text"
+                    required
+                    value={author}
+                    onChange={(e) => setAuthor(e.target.value)}
+                />
                 {!isPending && <button>Add blog</button>}
                 {isPending && <button disabled>Adding blog... </button>}
             </form>
-            
+
         </div>
     );
 }

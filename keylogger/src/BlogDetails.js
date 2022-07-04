@@ -7,8 +7,8 @@ const BlogDetails = () => {
     let navigate = useNavigate()
 
     const handleClick = () => {
-        fetch('http://localhost:5000/api/blogs/' + blog.id, {
-            method: 'DELETE'
+        fetch('http://localhost:5000/api/delete_blogs/' + blog.id, {
+            method: 'POST'
 
         }).then(() => {
             navigate('/');

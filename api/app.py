@@ -65,6 +65,13 @@ def single_blog(id):
         "body": blog.body
     }
 
+@app.route('/api/delete_blogs/<int:id>', methods = ['POST', 'GET'])
+def delete_blog(id):
+    blog = Blogs.query.filter_by(id = id).first()
+    db.session.delete(blog)
+    db.session.commit()
+    return {"msg": "blog deleted"}
+
 
 if __name__ == "__main__":
     db.create_all()
