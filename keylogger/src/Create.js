@@ -11,7 +11,7 @@ const Create = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const blog = {title, body, author};
-        fetch('http://localhost:5000/blogs', {
+        fetch('http://localhost:5000/api/create', {
             method: 'POST',
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(blog)
