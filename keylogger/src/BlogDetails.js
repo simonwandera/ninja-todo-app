@@ -3,7 +3,7 @@ import useFetch from "./useFetch";
 import { useNavigate } from 'react-router';
 const BlogDetails = () => {
     const { id } = useParams();
-    const { data: blog, error, isPending } = useFetch('http://localhost:5000/blogs/' + id);
+    const { data: blog, error, isPending } = useFetch('http://localhost:5000/api/blogs/' + id);
     let navigate = useNavigate()
 
     const handleClick = () => {

@@ -2,6 +2,7 @@
 
 # dependencies
 /keylogger/node_modules
+/api/migrations
 /.pnp
 .pnp.js
 

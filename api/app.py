@@ -56,7 +56,7 @@ def create_blog():
 
 
 @app.route('/api/blogs/<int:id>', methods = ['GET'])
-def single_blog():
+def single_blog(id):
     blog = Blogs.query.filter_by(id = id).first()
     return {
         "id": blog.id,
