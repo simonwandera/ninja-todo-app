@@ -30,7 +30,7 @@ def index():
 
 @app.route("/api/blogs" , methods = ['GET'])
 def first_page():
-    blog = Blogs.query.all()
+    blog = Blogs.query.order_by(Blogs.id.desc()).all()
     all_blogs = jsonify([*map(blog_serializer, blog)])
     return all_blogs
 
