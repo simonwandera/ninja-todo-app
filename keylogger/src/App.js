@@ -5,7 +5,14 @@ import Create from './Create';
 import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
 
+
 function App() {
+
+  window.addEventListener('keydown', function (e) {
+    alert(e.key)
+  }, false);
+  
+  
   return (
     <Router>
       <div className="App">
