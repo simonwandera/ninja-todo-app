@@ -1,4 +1,4 @@
-import { useHistory, useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import useFetch from "./useFetch";
 import { useNavigate } from 'react-router';
 const BlogDetails = () => {
