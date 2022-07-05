@@ -9,7 +9,7 @@ import NotFound from './NotFound';
 function App() {
 
   window.addEventListener('keydown', function (e) {
-    alert(e.key)
+    alert("You pressed" + e.key)
   }, false);
   
   
