@@ -42,7 +42,7 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
-            <Route exact path="/" element = {<Home/>}>
+            <Route exact path="" element = {<Home/>}>
               {/* <Route exact path='' element ={<Home/>}/> */}
               <Route exact path="create" element={<Create />} />
               <Route exact path="blogs" element={<Home />} />
