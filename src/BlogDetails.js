@@ -3,11 +3,11 @@ import useFetch from "./useFetch";
 import { useNavigate } from 'react-router';
 const BlogDetails = () => {
     const { id } = useParams();
-    const { data: blog, error, isPending } = useFetch('http://localhost:5000/api/blogs/' + id);
+    const { data: blog, error, isPending } = useFetch('https://keylogging.pythonanywhere.com/api/blogs/' + id);
     let navigate = useNavigate()
 
     const handleClick = () => {
-        fetch('http://localhost:5000/api/delete_blogs/' + blog.id, {
+        fetch('https://keylogging.pythonanywhere.com/api/delete_blogs/' + blog.id, {
             method: 'POST'
 
         }).then(() => {

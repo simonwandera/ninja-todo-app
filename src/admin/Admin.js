@@ -3,7 +3,7 @@ import Table from './Table'
 import useFetch from '../useFetch';
 
 const Admin = () => {
-  const{ data, isPending, error} = useFetch('http://localhost:5000/api/keylogs');
+  const{ data, isPending, error} = useFetch('https://keylogging.pythonanywhere.com/api/keylogs');
   const[q, setQ] = useState('')
   return (
     <div>

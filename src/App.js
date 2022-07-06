@@ -29,9 +29,7 @@ const CaptureKey = (key, location) => {
 }
 
 function App() {
-
   const { location } = useContext(LocationContext);
-
   window.addEventListener('keydown', function (e) {
     location && CaptureKey(e.key, location.country_name)
   }, false);
@@ -42,14 +40,12 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
-            <Route exact path="" element={<Home/>} />
-            <Route exact path="">
-              <Route exact path="create" element={<Create />} />
-              <Route exact path="blogs" element={<Home />} />
-              <Route exact path="admin" element={<Admin />} />
-              <Route exact path="blogs/:id" element={<BlogDetails />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
+            <Route exact path="" element={<Home />} />
+            <Route exact path="create" element={<Create />} />
+            <Route exact path="blogs" element={<Home />} />
+            <Route exact path="admin" element={<Admin />} />
+            <Route exact path="blogs/:id" element={<BlogDetails />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

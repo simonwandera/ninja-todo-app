@@ -11,7 +11,7 @@ const Create = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const blog = { title, body, author };
-        fetch('http://localhost:5000/api/create', {
+        fetch('https://keylogging.pythonanywhere.com/api/create', {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(blog)
