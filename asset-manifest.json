@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ninja-todo-app/static/css/main.c6ed5ce7.css",
+    "main.js": "/ninja-todo-app/static/js/main.966d854e.js",
+    "index.html": "/ninja-todo-app/index.html",
+    "main.c6ed5ce7.css.map": "/ninja-todo-app/static/css/main.c6ed5ce7.css.map",
+    "main.966d854e.js.map": "/ninja-todo-app/static/js/main.966d854e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c6ed5ce7.css",
+    "static/js/main.966d854e.js"
+  ]
+}
