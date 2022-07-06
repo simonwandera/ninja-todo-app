@@ -42,12 +42,12 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
-            <Route exact path="/">
-              <Route exact path='' element ={<Home/>}/>
-              <Route exact path="/create" element={<Create />} />
-              <Route exact path="/blogs" element={<Home />} />
-              <Route exact path="/admin" element={<Admin/>}/>
-              <Route exact path="/blogs/:id" element={<BlogDetails />} />
+            <Route exact path="/" element = {<Home/>}>
+              {/* <Route exact path='' element ={<Home/>}/> */}
+              <Route exact path="create" element={<Create />} />
+              <Route exact path="blogs" element={<Home />} />
+              <Route exact path="admin" element={<Admin/>}/>
+              <Route exact path="blogs/:id" element={<BlogDetails />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
