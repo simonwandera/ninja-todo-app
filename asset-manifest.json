@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/ninja-todo-app/static/css/main.c6ed5ce7.css",
-    "main.js": "/ninja-todo-app/static/js/main.805c6bda.js",
+    "main.js": "/ninja-todo-app/static/js/main.97404597.js",
     "index.html": "/ninja-todo-app/index.html",
     "main.c6ed5ce7.css.map": "/ninja-todo-app/static/css/main.c6ed5ce7.css.map",
-    "main.805c6bda.js.map": "/ninja-todo-app/static/js/main.805c6bda.js.map"
+    "main.97404597.js.map": "/ninja-todo-app/static/js/main.97404597.js.map"
   },
   "entrypoints": [
     "static/css/main.c6ed5ce7.css",
-    "static/js/main.805c6bda.js"
+    "static/js/main.97404597.js"
   ]
 }
