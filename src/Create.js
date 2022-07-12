@@ -48,7 +48,7 @@ const Create = () => {
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                 />
-                {!isPending && <button>Add blog</button>}
+                {!isPending && <button className="button">Add blog</button>}
                 {isPending && <button disabled>Adding blog... </button>}
             </form>
 

