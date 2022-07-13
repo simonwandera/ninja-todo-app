@@ -39,6 +39,7 @@ class Key_strokes(db.Model):
 class Login(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable = False)
+    usertype = db.Column(db.String(50), nullable = True)
     password = db.Column(db.String(50), nullable = False)
 
 @app.route('/')
@@ -129,7 +130,7 @@ def register_user():
     if check_user:
         return {'msg':'username already exists. Try a different one'}
 
-    new_user = Login(username=username, password=generate_password_hash(password, method='sha256'))
+    new_user = Login(username=username, usertype='USER', password=generate_password_hash(password, method='sha256'))
     db.session.add(new_user)
     db.session.commit()
 
@@ -168,6 +169,16 @@ def refresh_expiring_jwts(response):
     except (RuntimeError, KeyError):
         #case where there is no valid JW. Just return the original responce
         return response
+
+@app.route("/api/profile", methods=['GET'])
+@jwt_required()
+def myprofile():
+    user = Login.query.filter_by(username=str(get_jwt_identity())).first()
+    return{
+        'id': user.id,
+        'username': user.username,
+        'usertype': user.usertype
+    }
 
 if __name__ == "__main__":
     db.create_all()
