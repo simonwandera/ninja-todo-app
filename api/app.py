@@ -15,10 +15,13 @@ CORS(app, supports_credentials=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SECRET_KEY'] = 'secret-key-goes-here'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_SECRET_KEY'] = 'Please remember to change me'
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
 db = SQLAlchemy(app)
 
 migrate = Migrate()
 migrate.init_app(app, db)
+jwt = JWTManager(app)
 
 def get_current_time():
     pass
@@ -136,7 +139,7 @@ def register_user():
 
     return {"msg":"A new account has been created successfully"}
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/login', methods=['POST', 'GET'])
 def login_post():
     request_data=json.loads(request.data)
     username = request_data['username']
@@ -149,7 +152,7 @@ def login_post():
         message='Please check your login details and try again.'
         return jsonify(message),403 # if the user doesn't exist or password is wrong, reload the page
     access_token = create_access_token(identity=username)
-    response = {"access_token":access_token, "user_type": user.userType, "username":user.username}
+    response = {"access_token":access_token, "user_type": user.usertype, "username":user.username}
     
     return jsonify(response)
 
