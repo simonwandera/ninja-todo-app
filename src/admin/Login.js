@@ -1,26 +1,41 @@
 import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router';
+import { useContext } from 'react';
+import { userContext } from '../contexts/UserContext';
 
 const Login = () => {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [isPending, setIsPending] = useState(false)
+    const {userProfile, setUserProfile} = useContext(userContext)
     const navigate = useNavigate();
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const blog = { username, password };
-        fetch('https://keylogging.pythonanywhere.com/api/login', {
+        fetch('https://traffic.pythonanywhere.com/api/login', {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(blog)
-        }).then(() => {
-            console.log("New blog added");
-            setIsPending(false)
-            // history.go(-1);
-            navigate('/');
+            body: JSON.stringify(blog),
+            headers: {
+                "Contect-Type": "application/json; charset=UTF-8"
+            }
+        }).then(responce => {
+            if (!responce.ok) {
+                alert("Failed to log in!")
+            }else{
+                alert("success")
+            }
+            return responce.json();
+        }).then(data => {
+            if (data.access_token){
+                setUserProfile(data)
+                localStorage.setItem("token", data.access_token)
+            }
+
+        }).catch(error => {
+            console.log(error.responce, error.status, error.headers)
         })
     }
 

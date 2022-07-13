@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useMemo, useEffect } from 'react';
 import Navbar from './Navbar';
 import Home from './Home';
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
@@ -45,7 +45,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch('https://traffic.pythonanywhere.com/api/auth/profile', {
+    fetch('https://traffic.pythonanywhere.com/api/profile', {
       method: 'GET',
       body: JSON.stringify(),
       headers: {
