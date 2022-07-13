@@ -6,8 +6,6 @@ import { LocationContext } from "./contexts/LocationContext";
 const Home = () =>{
     const{ data, isPending, error} = useFetch('https://keylogging.pythonanywhere.com/api/blogs');
     const { location } = useContext(LocationContext);
-
-    console.log(location)
     
     return (
         <div className="home">
