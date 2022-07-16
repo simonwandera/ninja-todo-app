@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { userContext } from "./contexts/UserContext";
 const Navbar = () =>{
+    const {userProfile, setUserProfile} = useContext(userContext)
+
+    console.log(userProfile)
+
     return (
         <nav className="navbar">
             <h1>The Dojo Blog</h1>

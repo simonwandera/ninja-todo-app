@@ -122,6 +122,20 @@ def keylogs_serializer(blog):
         'timestamp': blog.timestamp
     }
 
+@app.route("/api/get_users" , methods = ['GET'])
+def get_users():
+    users = Login.query.all()
+    all_users = jsonify([*map(user_serializer, users)])
+    return all_users
+
+def user_serializer(user):
+    return{
+        'id': user.id,
+        'username': user.username,
+        'usertype': user.usertype,
+        
+    }
+
 @app.route('/api/add_user',  methods=['POST'])
 def register_user():
     

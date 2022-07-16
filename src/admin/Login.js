@@ -27,7 +27,7 @@ const Login = () => {
     }
 
     const onSubmit = (values) => {
-        fetch('http://127.0.0.1:5000/api/login', {
+        fetch('https://keylogging.pythonanywhere.com/api/login', {
             method: 'POST',
             body: JSON.stringify(values),
             headers: {
