@@ -45,7 +45,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch('https://traffic.pythonanywhere.com/api/profile', {
+    fetch('https://keylogging.pythonanywhere.com/api/profile', {
       method: 'GET',
       body: JSON.stringify(),
       headers: {
