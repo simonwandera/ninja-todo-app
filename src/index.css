@@ -165,3 +165,8 @@
   color:rgb(39, 4, 4);
 
 }
+
+.text-danger{
+  color: red;
+  font-size: 14px;
+}

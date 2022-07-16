@@ -10,7 +10,10 @@ const Admin = () => {
         { error && <div> { error} </div> }
         { isPending && <div>Loading...</div> }
         {data && <Table data = {data} title = "All the keystrokes are listed below"/>}
+
     </div>
+
+    
   )
 }
 

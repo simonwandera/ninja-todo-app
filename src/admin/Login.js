@@ -3,21 +3,33 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { userContext } from '../contexts/UserContext';
+import { useFormik } from 'formik'
 
 const Login = () => {
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    // const [username, setUsername] = useState();
+    // const [password, setPassword] = useState();
     const [isPending, setIsPending] = useState(false)
     const {userProfile, setUserProfile} = useContext(userContext)
     const navigate = useNavigate();
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const blog = { username, password };
-        fetch('https://traffic.pythonanywhere.com/api/login', {
+    const validate = values => {
+        const errors = {}
+
+        if (!values.username) {
+            errors.username = 'Required'
+        }
+
+        if (!values.password) {
+            errors.password = 'Required'
+        }
+        return errors
+    }
+
+    const onSubmit = (values) => {
+        fetch('http://127.0.0.1:5000/api/login', {
             method: 'POST',
-            body: JSON.stringify(blog),
+            body: JSON.stringify(values),
             headers: {
                 "Contect-Type": "application/json; charset=UTF-8"
             }
@@ -32,6 +44,7 @@ const Login = () => {
             if (data.access_token){
                 setUserProfile(data)
                 localStorage.setItem("token", data.access_token)
+                navigate('/admin')
             }
 
         }).catch(error => {
@@ -39,27 +52,43 @@ const Login = () => {
         })
     }
 
+    const formik = useFormik({
+        initialValues:  {
+            username: '',
+            password: ''
+        },
+        validate,
+        onSubmit
+    })
+
     return (
         <div className="create">
             <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={formik.handleSubmit} encType='multipart/form-data'>
                 <label>Username:</label>
                 <input
+                    id='username'
+                    name='username'
+                    onChange={formik.handleChange}
                     type="text"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={formik.values.username}
+                    onBlur={formik.handleBlur}
                 />
-                
+                {formik.touched.username && formik.errors.username && <div className='text-danger'>{formik.errors.username}</div>}
+
                 <label>Password:</label>
 
                 <input
+                    id='password'
                     type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    onBlur={formik.handleBlur}
                 />
-                {!isPending && <button className="button">Login</button>}
+                {formik.touched.password && formik.errors.password && <div className='text-danger'>{formik.errors.password}</div>}
+
+                {!isPending && <button className="button" type='submit'>Login</button>}
                 {/* {isPending && <button disabled>Adding blog... </button>} */}
             </form>
 
