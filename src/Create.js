@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from 'react-router';
+import { userContext } from "./contexts/UserContext";
+
 
 const Create = () => {
     const [title, setTitle] = useState('');
@@ -7,6 +9,10 @@ const Create = () => {
     const [author, setAuthor] = useState('');
     const [isPending, setIsPending] = useState(false)
     const navigate = useNavigate();
+    const {userProfile, setUserProfile} = useContext(userContext)
+
+    console.log(userProfile)
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -48,7 +54,10 @@ const Create = () => {
                     value={author}
                     onChange={(e) => setAuthor(e.target.value)}
                 />
-                {!isPending && <button className="button">Add blog</button>}
+                {(userProfile && userProfile.user_type) ? <button className="button">Add blog</button> :
+                <h3>Please Log in to create a blog</h3>
+
+                }
                 {isPending && <button disabled>Adding blog... </button>}
             </form>
 
