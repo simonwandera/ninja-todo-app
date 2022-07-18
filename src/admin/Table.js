@@ -1,25 +1,24 @@
 import React from 'react'
 
-const Table = ({ title, data }) => {
+const Table = ({ title, data, setData }) => {
     const columns = data[0] && Object.keys(data[0])
     
     const deleteAll=()=>{
         fetch('https://keylogging.pythonanywhere.com/api/delete_all', {
             method: 'GET',
-            body: JSON.stringify(new_values),
+            body: JSON.stringify(),
             headers: {
                 "Contect-Type": "application/json; charset=UTF-8"
             }
         }).then(responce => {
             if (!responce.ok) {
-              setMessage("Username already taken. Please pick try a different one")
-            }else{
-                alert("Account created")
+              alert("Internal server error")
             }
             return responce.json();
         }).then(data => {
           
-            data.msg && navigate('/login')
+            alert('Deleted successfully')
+            getLatestLogs()
             
         }).catch(error => {
             console.log(error.responce, error.status, error.headers)
@@ -27,11 +26,30 @@ const Table = ({ title, data }) => {
     }
 
     const getLatestLogs=()=>{
+        fetch('https://keylogging.pythonanywhere.com/api/keylogs', {
+            method: 'GET',
+            body: JSON.stringify(),
+            headers: {
+                "Contect-Type": "application/json; charset=UTF-8"
+            }
+        }).then(responce => {
+            if (!responce.ok) {
+              alert("Internal server error")
+            }
+            return responce.json();
+        }).then(data => {
+            console.log("success")
+            
+            setData(data)
+            
+        }).catch(error => {
+            console.log(error.responce, error.status, error.headers)
+        })
 
     }
     return (
         <div>
-            {data.length > 0 && <button className='button mb-5'>Delete all</button>}
+            {data.length > 0 && <button className='button mb-5' onClick={() => deleteAll()}>Delete all</button>}
 
             {data.length > 0 ? 
             <table className='table'>
