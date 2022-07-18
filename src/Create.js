@@ -47,7 +47,7 @@ const Create = () => {
                     onChange={(e) => setBody(e.target.value)}
                 ></textarea>
                 
-                {(userProfile && userProfile.user_type) ? <button className="button">Add blog</button> :
+                {(userProfile && userProfile.usertype) ? <button className="button">Add blog</button> :
                 <div className='loginAlert' onClick={() => navigate('/login')}>Please Log in to create a blog</div>
                 }
                 {isPending && <button disabled>Adding blog... </button>}
