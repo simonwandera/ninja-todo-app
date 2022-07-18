@@ -145,7 +145,7 @@ def register_user():
 
     check_user = Login.query.filter_by(username=username).first()
     if check_user:
-        return {'msg':'username already exists. Try a different one'}
+        return {'msg':'username already exists. Try a different one'}, 403
 
     new_user = Login(username=username, usertype='USER', password=generate_password_hash(password, method='sha256'))
     db.session.add(new_user)
