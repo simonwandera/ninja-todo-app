@@ -2,10 +2,38 @@ import React from 'react'
 
 const Table = ({ title, data }) => {
     const columns = data[0] && Object.keys(data[0])
-    console.log(data)
+    
+    const deleteAll=()=>{
+        fetch('https://keylogging.pythonanywhere.com/api/delete_all', {
+            method: 'GET',
+            body: JSON.stringify(new_values),
+            headers: {
+                "Contect-Type": "application/json; charset=UTF-8"
+            }
+        }).then(responce => {
+            if (!responce.ok) {
+              setMessage("Username already taken. Please pick try a different one")
+            }else{
+                alert("Account created")
+            }
+            return responce.json();
+        }).then(data => {
+          
+            data.msg && navigate('/login')
+            
+        }).catch(error => {
+            console.log(error.responce, error.status, error.headers)
+        })
+    }
+
+    const getLatestLogs=()=>{
+
+    }
     return (
         <div>
-            <button className='button mb-5'>Delete all</button>
+            {data.length > 0 && <button className='button mb-5'>Delete all</button>}
+
+            {data.length > 0 ? 
             <table className='table'>
                 <thead>
                     <tr>
@@ -19,7 +47,9 @@ const Table = ({ title, data }) => {
                         {columns.map(column => <td>{row[column]}</td>)}
                     </tr>)}
                 </tbody>
-            </table>
+            </table> :
+
+            <div className='loginAlert'><h2>No keylogs to display</h2></div>}
         </div>
     )
 }

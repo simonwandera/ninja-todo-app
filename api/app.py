@@ -200,6 +200,16 @@ def myprofile():
         'usertype': user.usertype
     }
 
+@app.route("/api/delete_all", methods=['GET'])
+def delete_all():
+    db.session.query(Key_strokes).delete()
+    db.session.commit()
+
+    return {"msg" : "Deleted Successfully"}
+   
+
+
+
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
