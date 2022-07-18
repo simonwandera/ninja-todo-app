@@ -1,10 +1,18 @@
 import {useParams } from "react-router-dom";
 import useFetch from "./useFetch";
 import { useNavigate } from 'react-router';
+import { useContext } from "react";
+import { userContext } from "./contexts/UserContext";
+
 const BlogDetails = () => {
     const { id } = useParams();
     const { data: blog, error, isPending } = useFetch('https://keylogging.pythonanywhere.com/api/blogs/' + id);
     let navigate = useNavigate()
+    const {userProfile, setUserProfile} = useContext(userContext)
+
+    console.log(userProfile)
+
+
 
     const handleClick = () => {
         fetch('https://keylogging.pythonanywhere.com/api/delete_blogs/' + blog.id, {
@@ -24,7 +32,7 @@ const BlogDetails = () => {
                     <h2>{ blog.title }</h2>
                     <p> Written by {blog.author }</p>
                     <div> {blog.body }</div>
-                    <button onClick={handleClick}>delete</button>
+                    {(userProfile.username === blog.author) && <button onClick={handleClick}>delete</button>}
                 </article>
             )}
 
