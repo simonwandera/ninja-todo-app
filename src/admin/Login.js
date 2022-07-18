@@ -44,7 +44,7 @@ const Login = () => {
             if (data.access_token){
                 setUserProfile(data)
                 localStorage.setItem("token", data.access_token)
-                navigate('/admin')
+                window.location.reload()
             }
 
         }).catch(error => {

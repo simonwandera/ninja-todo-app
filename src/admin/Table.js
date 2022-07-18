@@ -2,7 +2,7 @@ import React from 'react'
 
 const Table = ({ title, data }) => {
     const columns = data[0] && Object.keys(data[0])
-
+    console.log(data)
     return (
         <div>
             <button className='button mb-5'>Delete all</button>

