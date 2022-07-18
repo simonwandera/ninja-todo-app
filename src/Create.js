@@ -6,10 +6,10 @@ import { userContext } from "./contexts/UserContext";
 const Create = () => {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [author, setAuthor] = useState('');
     const [isPending, setIsPending] = useState(false)
     const navigate = useNavigate();
     const {userProfile, setUserProfile} = useContext(userContext)
+    const [author, setAuthor] = useState(userProfile ? userProfile.username : 'Unauthenticated');
 
     console.log(userProfile)
 
@@ -46,17 +46,9 @@ const Create = () => {
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                 ></textarea>
-                <label>Blog author:</label>
                 
-                <input
-                    type="text"
-                    required
-                    value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
-                />
                 {(userProfile && userProfile.user_type) ? <button className="button">Add blog</button> :
-                <h3>Please Log in to create a blog</h3>
-
+                <div className='loginAlert' onClick={() => navigate('/login')}>Please Log in to create a blog</div>
                 }
                 {isPending && <button disabled>Adding blog... </button>}
             </form>
