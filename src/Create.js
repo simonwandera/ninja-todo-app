@@ -11,9 +11,6 @@ const Create = () => {
     const {userProfile, setUserProfile} = useContext(userContext)
     const [author, setAuthor] = useState(userProfile ? userProfile.username : 'Unauthenticated');
 
-    console.log(userProfile)
-
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const blog = { title, body, author };

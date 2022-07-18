@@ -81,7 +81,7 @@ function App() {
             <Route exact path="create" element={<Create />} />
             <Route exact path="login" element={<Login/>}/>
             <Route exact path="blogs" element={<Home />} />
-            <Route element={<RequireAuth userType={userProfile && userProfile.userType} />}>
+            <Route element={<RequireAuth userType={userProfile && userProfile.usertype} />}>
               <Route exact path="admin" element={<Admin />} />
             </Route>
             <Route exact path="blogs/:id" element={<BlogDetails />} />
