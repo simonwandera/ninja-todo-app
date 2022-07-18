@@ -4,7 +4,7 @@ import { userContext } from "./contexts/UserContext";
 const Navbar = () =>{
     const {userProfile, setUserProfile} = useContext(userContext)
 
-    console.log(userProfile)
+    console.log(userProfile && userProfile)
 
     return (
         <nav className="navbar">
