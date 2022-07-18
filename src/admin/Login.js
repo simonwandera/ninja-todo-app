@@ -89,6 +89,7 @@ const Login = () => {
                 {formik.touched.password && formik.errors.password && <div className='text-danger'>{formik.errors.password}</div>}
 
                 {!isPending && <button className="button" type='submit'>Login</button>}
+                {!isPending && <button className="signup" type='button' onClick={() => navigate('/signup')}>Create account</button>}
                 {/* {isPending && <button disabled>Adding blog... </button>} */}
             </form>
 
