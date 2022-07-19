@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { userContext } from "./contexts/UserContext";
 const Navbar = () =>{
-    const {userProfile, setUserProfile} = useContext(userContext)
+    const {userProfile} = useContext(userContext)
 
     return (
         <nav className="navbar">

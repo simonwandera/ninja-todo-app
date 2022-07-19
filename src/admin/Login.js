@@ -9,7 +9,7 @@ const Login = () => {
     // const [username, setUsername] = useState();
     // const [password, setPassword] = useState();
     const [isPending, setIsPending] = useState(false)
-    const {userProfile, setUserProfile} = useContext(userContext)
+    const {setUserProfile} = useContext(userContext)
     const navigate = useNavigate();
 
     const validate = values => {
@@ -26,6 +26,7 @@ const Login = () => {
     }
 
     const onSubmit = (values) => {
+        setIsPending(true)
         fetch('https://keylogging.pythonanywhere.com/api/login', {
             method: 'POST',
             body: JSON.stringify(values),
@@ -36,12 +37,13 @@ const Login = () => {
             if (!responce.ok) {
                 alert("Failed to log in!")
             }else{
-                alert("success")
+                setIsPending(false)
             }
             return responce.json();
         }).then(data => {
             if (data.access_token){
                 setUserProfile(data)
+                setIsPending(false)
                 localStorage.setItem("token", data.access_token)
                 window.location.replace("/")
             }
@@ -89,7 +91,7 @@ const Login = () => {
 
                 {!isPending && <button className="button" type='submit'>Login</button>}
                 {!isPending && <button className="signup" type='button' onClick={() => navigate('/signup')}>Create account</button>}
-                {/* {isPending && <button disabled>Adding blog... </button>} */}
+                {isPending && <div className='loginAlert'>Logging in... </div>}
             </form>
 
         </div>
