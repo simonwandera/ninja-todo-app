@@ -8,11 +8,7 @@ const BlogDetails = () => {
     const { id } = useParams();
     const { data: blog, error, isPending } = useFetch('https://keylogging.pythonanywhere.com/api/blogs/' + id);
     let navigate = useNavigate()
-    const {userProfile, setUserProfile} = useContext(userContext)
-
-    console.log(userProfile)
-
-
+    const {userProfile} = useContext(userContext)
 
     const handleClick = () => {
         fetch('https://keylogging.pythonanywhere.com/api/delete_blogs/' + blog.id, {
@@ -27,12 +23,12 @@ const BlogDetails = () => {
         <div className="blog-details"> 
             { isPending && <div> Loading... </div>}
             { error && <div> {error} </div>}
-            {blog && (
+            {blog && userProfile &&(
                 <article>
                     <h2>{ blog.title }</h2>
                     <p> Written by {blog.author }</p>
                     <div> {blog.body }</div>
-                    {(userProfile.username === blog.author) && <button onClick={handleClick}>delete</button>}
+                    {(userProfile.username === blog.author || userProfile.usertype === 'ADMIN') && <button onClick={handleClick}>delete</button>}
                 </article>
             )}
 

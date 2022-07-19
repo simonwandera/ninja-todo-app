@@ -43,7 +43,7 @@ const Login = () => {
             if (data.access_token){
                 setUserProfile(data)
                 localStorage.setItem("token", data.access_token)
-                window.location.reload()
+                window.location.replace("/")
             }
 
         }).catch(error => {
