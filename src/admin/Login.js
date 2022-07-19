@@ -12,7 +12,6 @@ const Login = () => {
     const {userProfile, setUserProfile} = useContext(userContext)
     const navigate = useNavigate();
 
-
     const validate = values => {
         const errors = {}
 

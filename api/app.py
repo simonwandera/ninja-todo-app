@@ -7,6 +7,7 @@ from sqlalchemy import true
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 from datetime import datetime, timedelta, timezone,date
+from pytz import timezone as tz
 
 app = Flask(__name__, static_folder="../build", static_url_path='/')
 CORS(app, supports_credentials=True)
@@ -24,7 +25,8 @@ migrate.init_app(app, db)
 jwt = JWTManager(app)
 
 def get_current_time():
-    pass
+    current_time = datetime.now(tz(zone='Asia/Riyadh'))
+    return current_time
 
 class Blogs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,7 +40,7 @@ class Key_strokes(db.Model):
     location = db.Column(db.String(30), nullable = False)
     ip_address = db.Column(db.String(30), nullable = True)
     user = db.Column(db.String(30), nullable = True)
-    timestamp = db.Column(db.DateTime(timezone=True), default = datetime.utcnow)
+    timestamp = db.Column(db.String(30), server_default = datetime.now(tz(zone='Asia/Riyadh')).strftime('%d-%m-%Y, %H:%M:%S'))
 
 class Login(db.Model):
     id = db.Column(db.Integer, primary_key=True)
