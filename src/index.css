@@ -203,3 +203,11 @@
   text-align: center;
   cursor: pointer;
 }
+
+.ps-2{
+  margin-left: 15px;
+}
+
+.mb-2{
+  margin-bottom: 15px;
+}

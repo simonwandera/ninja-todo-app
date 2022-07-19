@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Table = ({ title, data, setData }) => {
     const columns = data[0] && Object.keys(data[0])
+    const [isPending, setIsPending] = useState(false)
     
     const deleteAll=()=>{
         fetch('https://keylogging.pythonanywhere.com/api/delete_all', {
@@ -26,6 +27,7 @@ const Table = ({ title, data, setData }) => {
     }
 
     const getLatestLogs=()=>{
+        setIsPending(true)
         fetch('https://keylogging.pythonanywhere.com/api/keylogs', {
             method: 'GET',
             body: JSON.stringify(),
@@ -39,7 +41,7 @@ const Table = ({ title, data, setData }) => {
             return responce.json();
         }).then(data => {
             console.log("success")
-            
+            setIsPending(false)
             setData(data)
             
         }).catch(error => {
@@ -49,8 +51,9 @@ const Table = ({ title, data, setData }) => {
     }
     return (
         <div>
-            {data.length > 0 && <button className='button mb-5' onClick={() => deleteAll()}>Delete all</button>}
-
+            {data.length > 0 && !isPending && <button className='button mb-5' onClick={() => deleteAll()}>Delete all</button>}
+            {data.length > 0 && !isPending && <button className='button mb-5 ps-2' onClick={() => getLatestLogs()} >Reload</button>}
+            {isPending && <div className='loginAlert mb-2'>Reloading...</div>}
             {data.length > 0 ? 
             <table className='table'>
                 <thead>
