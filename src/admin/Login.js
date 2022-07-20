@@ -45,7 +45,7 @@ const Login = () => {
                 setUserProfile(data)
                 setIsPending(false)
                 localStorage.setItem("token", data.access_token)
-                window.location.href("/home")
+                window.location.href = "home";
             }
 
         }).catch(error => {
