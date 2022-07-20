@@ -69,7 +69,6 @@ const Table = ({ title, data, setData }) => {
                     </tr>)}
                 </tbody>
             </table> :
-
             <div className='loginAlert'><h2>No keylogs to display</h2></div>}
         </div>
     )
